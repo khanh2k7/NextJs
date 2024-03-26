@@ -1,6 +1,5 @@
 "use client";
 import * as React from 'react';
-import { useSidebar } from '../components/SidebarContext';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
@@ -12,10 +11,14 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 
-export function Sidebar() {
-  const { isSidebarOpen, toggleSidebar } = useSidebar();
+type ButtonType = {
+  toggleDrawer: (mmyopen: boolean) => void,
+  open: boolean,
+}
+
+export function Sidebar({toggleDrawer, open}: ButtonType) {
   const DrawerList = (
-    <Box sx={{ width: 250 }} role="presentation" onClick={toggleSidebar}>
+    <Box sx={{ width: 250 }} role="presentation" onClick={() => toggleDrawer(false)}>
       <List>
         {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
           <ListItem key={text} disablePadding>
@@ -42,7 +45,7 @@ export function Sidebar() {
 
   return (
     <div>
-      <Drawer open={isSidebarOpen} onClose={toggleSidebar}>
+      <Drawer open={open} onClose={() => toggleDrawer(false)}>
         {DrawerList}
       </Drawer>
     </div>
